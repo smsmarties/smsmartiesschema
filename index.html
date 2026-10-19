@@ -16,14 +16,14 @@ button.secondary{background:#555e69}button{background:#b71c1c;color:white;border
 footer{color:#656b72;text-align:center;padding:15px 0;font-size:13px}
 @media(max-width:480px){.grid{grid-template-columns:1fr}th,td{padding:11px 4px;font-size:14px}}
 </style></head><body>
-<header class="top"><div class="wrap"><h1>⚽ SM Smarties Schema</h1><p class="subtitle">Seizoen 2026/2027 · <span id="seasonround">speelronde 1</span></p></div></header>
+<header class="top"><div class="wrap"><h1>⚽ SM Smarties Schema</h1><p class="subtitle">Seizoen 2026/2027 · Periode 2 · <span id="seasonround">speelronde 1</span></p></div></header>
 <main class="wrap">
 <section class="panel"><label for="round">Kies een speelronde</label><select id="round"></select></section>
 <section class="panel"><h2 id="heading"></h2><div class="grid"><div class="fact">🏃 Training<strong id="trainingdate"></strong><span class="muted">14:30 uur</span></div><div class="fact">⚽ Wedstrijd<strong id="matchdate"></strong><span class="muted">11:30 uur · Veld 4</span></div></div>
 <h3>Wedstrijden</h3><table><thead><tr><th>Veld</th><th>Thuis</th><th>Uit</th></tr></thead><tbody id="games"></tbody></table></section>
 <section class="panel"><h2>Woensdag · hulpouders</h2><p>De <strong>uitspelende clubs</strong> begeleiden de training voorafgaand aan de zaterdagwedstrijd.</p><div class="chips" id="helpers"></div>
 <h3>Zaterdag · taken</h3><p><strong>Thuisclub:</strong> begeleidt de wedstrijd.<br><strong>Uitclub:</strong> haalt limonade.</p>
-<button id="share">📲 Deel deze speelronde via WhatsApp</button> <button id="copy" class="secondary">Kopieer schema</button></section>
+<button id="share">📲 Deel deze speelronde via WhatsApp</button></section>
 <section class="panel"><h2>❄️ Winterstop</h2><p>Laatste training: <strong>woensdag 9 december 2026</strong>.<br>Laatste wedstrijd: <strong>zaterdag 12 december 2026</strong>.</p><p>We beginnen weer met trainen op <strong>woensdag 13 januari 2027</strong> en spelen weer op <strong>zaterdag 16 januari 2027</strong>.</p></section>
 <footer>SM Smarties · Dit schema is openbaar toegankelijk via de link.</footer>
 </main>
@@ -45,6 +45,5 @@ const today=new Date();const todayISO=`${today.getFullYear()}-${String(today.get
 const nextIndex=rounds.findIndex(r=>r.training>=todayISO);
 sel.value=String(requested>=1&&requested<=10?requested-1:nextIndex<0?rounds.length-1:nextIndex);render();
 function shareText(){const r=rounds[+sel.value];return `SM Smarties – ronde ${r.round}\nTraining: ${pretty(r.training)} 14:30\nWedstrijd: ${pretty(r.date)} 11:30\n${r.matches.map(m=>`${m.field}: ${m.home} – ${m.away}`).join("\n")}\nHulpouders woensdag: ${r.matches.map(m=>m.away).join(", ")}\nZaterdag: thuisclub begeleidt; uitclub haalt limonade.\n${location.href}`;}
-document.getElementById("copy").addEventListener("click",async()=>{const t=shareText();try{await navigator.clipboard.writeText(t);alert("Speelronde gekopieerd!")}catch(e){prompt("Kopieer het schema:",t)}});
 document.getElementById("share").addEventListener("click",()=>{window.open("https://wa.me/?text="+encodeURIComponent(shareText()),"_blank","noopener,noreferrer")});
 </script></body></html>
