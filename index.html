@@ -12,18 +12,18 @@ h2{font-size:21px;margin:0 0 10px}h3{font-size:16px;margin:16px 0 8px}.muted{col
 table{width:100%;border-collapse:collapse}th,td{padding:12px 7px;text-align:left;border-bottom:1px solid #e6e8ea}th{font-size:13px;color:#626873}td:first-child{font-weight:700;white-space:nowrap}tr:last-child td{border:0}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chip{padding:8px 11px;border-radius:20px;background:#fff5cb;font-weight:600;font-size:14px}
 .note{border-left:4px solid #f6c900;padding:9px 12px;background:#fffdf2;margin-top:12px}
-button{background:#b71c1c;color:white;border:0;border-radius:9px;padding:12px 16px;font-weight:700;cursor:pointer}
+button.secondary{background:#555e69}button{background:#b71c1c;color:white;border:0;border-radius:9px;padding:12px 16px;font-weight:700;cursor:pointer}
 footer{color:#656b72;text-align:center;padding:15px 0;font-size:13px}
 @media(max-width:480px){.grid{grid-template-columns:1fr}th,td{padding:11px 4px;font-size:14px}}
 </style></head><body>
-<header class="top"><div class="wrap"><h1>⚽ SM Smarties Schema</h1><p class="subtitle">Wedstrijden & trainingen · seizoen 2026/2027 ronde 2</p></div></header>
+<header class="top"><div class="wrap"><h1>⚽ SM Smarties Schema</h1><p class="subtitle">Seizoen 2026/2027 · <span id="seasonround">speelronde 1</span></p></div></header>
 <main class="wrap">
 <section class="panel"><label for="round">Kies een speelronde</label><select id="round"></select></section>
-<section class="panel"><h2 id="heading"></h2><div class="grid"><div class="fact">⚽ Wedstrijd<strong id="matchdate"></strong><span class="muted">11:30 uur · Veld 4</span></div><div class="fact">🏃 Training<strong id="trainingdate"></strong><span class="muted">14:30 uur</span></div></div>
+<section class="panel"><h2 id="heading"></h2><div class="grid"><div class="fact">🏃 Training<strong id="trainingdate"></strong><span class="muted">14:30 uur</span></div><div class="fact">⚽ Wedstrijd<strong id="matchdate"></strong><span class="muted">11:30 uur · Veld 4</span></div></div>
 <h3>Wedstrijden</h3><table><thead><tr><th>Veld</th><th>Thuis</th><th>Uit</th></tr></thead><tbody id="games"></tbody></table></section>
 <section class="panel"><h2>Woensdag · hulpouders</h2><p>De <strong>uitspelende clubs</strong> begeleiden de training voorafgaand aan de zaterdagwedstrijd.</p><div class="chips" id="helpers"></div>
 <h3>Zaterdag · taken</h3><p><strong>Thuisclub:</strong> begeleidt de wedstrijd.<br><strong>Uitclub:</strong> haalt limonade.</p>
-<button id="copy">Kopieer deze speelronde</button></section>
+<button id="share">📲 Deel deze speelronde via WhatsApp</button> <button id="copy" class="secondary">Kopieer schema</button></section>
 <section class="panel"><h2>❄️ Winterstop</h2><p>Laatste training: <strong>woensdag 9 december 2026</strong>.<br>Laatste wedstrijd: <strong>zaterdag 12 december 2026</strong>.</p><p>We beginnen weer met trainen op <strong>woensdag 13 januari 2027</strong> en spelen weer op <strong>zaterdag 16 januari 2027</strong>.</p></section>
 <footer>SM Smarties · Dit schema is openbaar toegankelijk via de link.</footer>
 </main>
@@ -33,7 +33,7 @@ const fields=["R1","R2","M1","M2","L1","L2"];
 const sel=document.getElementById("round");
 function pretty(s){return new Intl.DateTimeFormat("nl-NL",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"}).format(new Date(s+"T12:00:00Z"))}
 rounds.forEach((r,i)=>{const o=document.createElement("option");o.value=i;o.textContent=`Ronde ${r.round} · ${pretty(r.date)}`;sel.append(o)});
-function render(){const r=rounds[+sel.value];document.getElementById("heading").textContent=`Ronde ${r.round} · ${r.round<=5?"heenronde":"terugronde"}`;
+function render(){const r=rounds[+sel.value];document.getElementById("heading").textContent=`Ronde ${r.round} · ${r.round<=5?"heenronde":"terugronde"}`;document.getElementById("seasonround").textContent=`speelronde ${r.round}`;
 document.getElementById("matchdate").textContent=pretty(r.date);document.getElementById("trainingdate").textContent=pretty(r.training);
 document.getElementById("games").replaceChildren(...r.matches.map(m=>{const tr=document.createElement("tr");[m.field,m.home,m.away].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.append(td)});return tr}));
 document.getElementById("helpers").replaceChildren(...r.matches.map(m=>{const s=document.createElement("span");s.className="chip";s.textContent=m.away;return s}));
@@ -41,6 +41,10 @@ const url=new URL(location.href);url.searchParams.set("ronde",r.round);history.r
 }
 sel.addEventListener("change",render);
 const requested=Number(new URLSearchParams(location.search).get("ronde"));
-sel.value=String(requested>=1&&requested<=10?requested-1:0);render();
-document.getElementById("copy").addEventListener("click",async()=>{const r=rounds[+sel.value];const t=`SM Smarties – ronde ${r.round}\nWedstrijd: ${pretty(r.date)} 11:30\nTraining: ${pretty(r.training)} 14:30\n${r.matches.map(m=>`${m.field}: ${m.home} – ${m.away}`).join("\n")}\nHulpouders woensdag: ${r.matches.map(m=>m.away).join(", ")}\nZaterdag: thuisclub begeleidt; uitclub haalt limonade.\n${location.href}`;try{await navigator.clipboard.writeText(t);alert("Speelronde gekopieerd!")}catch(e){prompt("Kopieer het schema:",t)}});
+const today=new Date();const todayISO=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+const nextIndex=rounds.findIndex(r=>r.training>=todayISO);
+sel.value=String(requested>=1&&requested<=10?requested-1:nextIndex<0?rounds.length-1:nextIndex);render();
+function shareText(){const r=rounds[+sel.value];return `SM Smarties – ronde ${r.round}\nTraining: ${pretty(r.training)} 14:30\nWedstrijd: ${pretty(r.date)} 11:30\n${r.matches.map(m=>`${m.field}: ${m.home} – ${m.away}`).join("\n")}\nHulpouders woensdag: ${r.matches.map(m=>m.away).join(", ")}\nZaterdag: thuisclub begeleidt; uitclub haalt limonade.\n${location.href}`;}
+document.getElementById("copy").addEventListener("click",async()=>{const t=shareText();try{await navigator.clipboard.writeText(t);alert("Speelronde gekopieerd!")}catch(e){prompt("Kopieer het schema:",t)}});
+document.getElementById("share").addEventListener("click",()=>{window.open("https://wa.me/?text="+encodeURIComponent(shareText()),"_blank","noopener,noreferrer")});
 </script></body></html>
