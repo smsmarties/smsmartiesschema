@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#b71c1c"><meta name="description" content="Wedstrijd- en trainingsschema SM Smarties 2026–2027">
-<title>SM Smarties Schema</title>
+<title>SM Smarties CL Schema</title>
 <style>
 :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#202124;background:#f7f8fa}
 *{box-sizing:border-box}body{margin:0}.top{background:#b71c1c;color:white;padding:26px 18px 22px;border-bottom:6px solid #f6c900}
@@ -16,11 +16,11 @@ table{width:100%;border-collapse:collapse}th,td{padding:12px 7px;text-align:left
 footer{color:#656b72;text-align:center;padding:15px 0;font-size:13px}
 @media(max-width:480px){.grid{grid-template-columns:1fr}th,td{padding:11px 4px;font-size:14px}}
 </style></head><body>
-<header class="top"><div class="wrap"><h1>⚽ SM Smarties Schema</h1><p class="subtitle">Seizoen 2026/2027 · Periode 2 · <span id="seasonround">speelronde 1</span></p></div></header>
+<header class="top"><div class="wrap"><h1>⚽ SM Smarties CL Schema</h1><p class="subtitle">Seizoen 2026/2027 · Periode 2 · <span id="seasonround">speelronde 1</span></p></div></header>
 <main class="wrap">
 <section class="panel"><label for="round">Kies een speelronde</label><select id="round"></select></section>
-<section class="panel"><h2 id="heading"></h2><div class="grid"><div class="fact">🏃 Training<strong id="trainingdate"></strong><span class="muted">14:30 uur · Veld 1</span></div><div class="fact">⚽ Wedstrijd<strong id="matchdate"></strong><span class="muted">11:30 uur · Veld 4</span></div></div>
-<h3>Wedstrijden</h3><table><thead><tr><th>Veld</th><th>Thuis</th><th>Uit</th></tr></thead><tbody id="games"></tbody></table></section>
+<section class="panel"><h2 id="heading"></h2><div class="grid"><div class="fact">🏃 Training<strong id="trainingdate"></strong><span class="muted">14:30–15:30 uur · Veld 1</span></div><div class="fact">⚽ Wedstrijd<strong id="matchdate"></strong><span class="muted">11:30–12:30 uur · Veld 4</span></div></div>
+<h3>Wedstrijden</h3><table><thead><tr><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead><tbody id="games"></tbody></table></section>
 <section class="panel"><h2>Woensdag · hulpouders</h2><p>De <strong>uitspelende clubs</strong> begeleiden de training voorafgaand aan de zaterdagwedstrijd.</p><div class="chips" id="helpers"></div>
 <h3>Zaterdag · taken</h3><p><strong>Thuisclub:</strong> begeleidt de wedstrijd.<br><strong>Uitclub:</strong> haalt limonade.</p>
 <button id="share" class="action-button">📲 Deel deze speelronde via WhatsApp</button></section>
@@ -36,7 +36,7 @@ function pretty(s){return new Intl.DateTimeFormat("nl-NL",{weekday:"long",day:"n
 rounds.forEach((r,i)=>{const o=document.createElement("option");o.value=i;o.textContent=`Ronde ${r.round} · ${pretty(r.date)}`;sel.append(o)});
 function render(){const r=rounds[+sel.value];document.getElementById("heading").textContent=`Ronde ${r.round} · ${r.round<=5?"heenronde":"terugronde"}`;document.getElementById("seasonround").textContent=`speelronde ${r.round}`;
 document.getElementById("matchdate").textContent=pretty(r.date);document.getElementById("trainingdate").textContent=pretty(r.training);
-document.getElementById("games").replaceChildren(...r.matches.map(m=>{const tr=document.createElement("tr");[m.field,m.home,m.away].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.append(td)});return tr}));
+document.getElementById("games").replaceChildren(...r.matches.map(m=>{const tr=document.createElement("tr");[m.field,m.home,"–",m.away].forEach(v=>{const td=document.createElement("td");td.textContent=v;tr.append(td)});return tr}));
 document.getElementById("helpers").replaceChildren(...r.matches.map(m=>{const s=document.createElement("span");s.className="chip";s.textContent=m.away;return s}));
 const url=new URL(location.href);url.searchParams.set("ronde",r.round);history.replaceState(null,"",url);
 }
