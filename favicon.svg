@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<defs><clipPath id="c"><circle cx="64" cy="64" r="60"/></clipPath></defs>
+<g clip-path="url(#c)"><rect width="128" height="128" fill="#f8d900"/><path d="M16 0h17v128H16zm34 0h17v128H50zm34 0h17v128H84zm34 0h17v128h-17z" fill="#e11b22"/></g>
+<circle cx="64" cy="64" r="60" fill="none" stroke="#101010" stroke-width="7"/>
+<circle cx="64" cy="65" r="34" fill="#fff" stroke="#111" stroke-width="4"/>
+<path d="M64 43 77 52 72 68 56 68 51 52z" fill="#171717"/><path d="m51 52-15-5m41 5 15-5M56 68l-10 17m26-17 10 17" stroke="#111" stroke-width="4" fill="none"/>
+<text x="64" y="28" font-family="Arial,sans-serif" font-size="26" font-weight="900" text-anchor="middle" stroke="white" stroke-width="5" paint-order="stroke">SM</text>
+<text x="64" y="101" font-family="Arial,sans-serif" font-size="18" font-weight="900" text-anchor="middle" stroke="white" stroke-width="4" paint-order="stroke">SMARTIES</text>
+</svg>
