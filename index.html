@@ -42,6 +42,11 @@ teamSelect.addEventListener("change",()=>{try{localStorage.setItem("smarties-tea
 const sel=document.getElementById("round");
 function pretty(s){return new Intl.DateTimeFormat("nl-NL",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"}).format(new Date(s+"T12:00:00Z"))}
 rounds.forEach((r,i)=>{const o=document.createElement("option");o.value=i;o.textContent=`Ronde ${r.round} · ${pretty(r.date)}`;sel.append(o)});
+// Selecteer bij het openen automatisch de eerstvolgende speelronde (vandaag telt mee).
+const now=new Date();
+const today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,"0"),String(now.getDate()).padStart(2,"0")].join("-");
+const nextRound=rounds.findIndex(r=>r.date>=today);
+sel.value=String(nextRound>=0?nextRound:rounds.length-1);
 function render(){const r=rounds[+sel.value];document.getElementById("heading").textContent=`Ronde ${r.round} · ${r.round<=5?"heenronde":"terugronde"}`;document.getElementById("seasonround").textContent=`speelronde ${r.round}`;
 document.getElementById("matchdate").textContent=pretty(r.date);document.getElementById("trainingdate").textContent=pretty(r.training);
 const selectedTeam=teamSelect.value;
