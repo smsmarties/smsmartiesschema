@@ -49,6 +49,8 @@ footer{color:#656b72;text-align:center;padding:15px 0;font-size:13px}
 </main>
 <script>
 const rounds=[{"round":1,"date":"2026-11-14","training":"2026-11-11","matches":[{"field":"R1","home":"Arsenal","away":"Atl. Madrid"},{"field":"R2","home":"Real Madrid","away":"Liverpool"},{"field":"M1","home":"AC Milan","away":"Chelsea"},{"field":"M2","home":"Man. City","away":"FC Porto"},{"field":"L1","home":"Dortmund","away":"Juventus"},{"field":"L2","home":"Inter Milan","away":"PSG"}]},{"round":2,"date":"2026-11-21","training":"2026-11-18","matches":[{"field":"R1","home":"Liverpool","away":"PSG"},{"field":"R2","home":"Atl. Madrid","away":"Juventus"},{"field":"M1","home":"Real Madrid","away":"Man. City"},{"field":"M2","home":"Chelsea","away":"Dortmund"},{"field":"L1","home":"FC Porto","away":"Inter Milan"},{"field":"L2","home":"Arsenal","away":"AC Milan"}]},{"round":3,"date":"2026-11-28","training":"2026-11-25","matches":[{"field":"R1","home":"Inter Milan","away":"Real Madrid"},{"field":"R2","home":"Juventus","away":"Chelsea"},{"field":"M1","home":"AC Milan","away":"Atl. Madrid"},{"field":"M2","home":"PSG","away":"FC Porto"},{"field":"L1","home":"Dortmund","away":"Arsenal"},{"field":"L2","home":"Man. City","away":"Liverpool"}]},{"round":4,"date":"2026-12-05","training":"2026-12-02","matches":[{"field":"R1","home":"Liverpool","away":"FC Porto"},{"field":"R2","home":"Arsenal","away":"Juventus"},{"field":"M1","home":"Real Madrid","away":"PSG"},{"field":"M2","home":"AC Milan","away":"Dortmund"},{"field":"L1","home":"Man. City","away":"Inter Milan"},{"field":"L2","home":"Atl. Madrid","away":"Chelsea"}]},{"round":5,"date":"2026-12-12","training":"2026-12-09","matches":[{"field":"R1","home":"Chelsea","away":"Arsenal"},{"field":"R2","home":"PSG","away":"Man. City"},{"field":"M1","home":"Dortmund","away":"Atl. Madrid"},{"field":"M2","home":"FC Porto","away":"Real Madrid"},{"field":"L1","home":"Juventus","away":"AC Milan"},{"field":"L2","home":"Inter Milan","away":"Liverpool"}]}];
+// Periode 2 bevat uitsluitend de eerste vijf speelrondes.
+rounds.splice(5);
 const fields=["R1","R2","M1","M2","L1","L2"];
 const teams=["AC Milan","Arsenal","Atl. Madrid","Chelsea","Dortmund","FC Porto","Inter Milan","Juventus","Liverpool","Man. City","PSG","Real Madrid"];
 const teamSelect=document.getElementById("team");
@@ -58,6 +60,7 @@ const urlTeam=new URLSearchParams(location.search).get("team");teamSelect.value=
 teamSelect.addEventListener("change",()=>{try{localStorage.setItem("smarties-team",teamSelect.value)}catch(e){}render()});
 const sel=document.getElementById("round");
 function pretty(s){return new Intl.DateTimeFormat("nl-NL",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"}).format(new Date(s+"T12:00:00Z"))}
+sel.replaceChildren();
 rounds.forEach((r,i)=>{const o=document.createElement("option");o.value=i;o.textContent=`Ronde ${r.round} · ${pretty(r.date)}`;sel.append(o)});
 function renderMatchday(r,selectedTeam){
 const box=document.getElementById("matchdaydetails"),hint=document.getElementById("matchdayhint");
