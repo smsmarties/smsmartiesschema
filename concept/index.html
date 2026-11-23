@@ -13,7 +13,7 @@ h2{font-size:21px;margin:0 0 10px}h3{font-size:16px;margin:16px 0 8px}.muted{col
 table{width:100%;border-collapse:collapse}th,td{padding:12px 7px;text-align:left;border-bottom:1px solid #e6e8ea}th{font-size:13px;color:#626873}td:first-child{font-weight:700;white-space:nowrap}tr:last-child td{border:0}
 .chips{display:flex;flex-wrap:wrap;gap:8px}.chip{padding:8px 11px;border-radius:20px;background:#fff5cb;font-weight:600;font-size:14px}
 .note{border-left:4px solid #f6c900;padding:9px 12px;background:#fffdf2;margin-top:12px}
-.action-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#b71c1c;color:#fff;border:0;border-radius:9px;padding:13px 18px;min-height:46px;font:700 15px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;text-decoration:none;cursor:pointer}.action-button:hover,.action-button:focus-visible{background:#921717}.action-button:focus-visible{outline:3px solid #f6c900;outline-offset:3px}@media(max-width:520px){.action-button{width:100%}}
+.action-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#b71c1c;color:#fff;border:0;border-radius:9px;padding:13px 18px;min-height:46px;font:700 15px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center;text-decoration:none;cursor:pointer}.action-button:hover,.action-button:focus-visible{background:#921717}.rules-button{background:#f6c900;color:#202124}.rules-button:hover,.rules-button:focus-visible{background:#e5b900}.action-button:focus-visible{outline:3px solid #f6c900;outline-offset:3px}@media(max-width:520px){.action-button{width:100%}}
 footer{color:#656b72;text-align:center;padding:15px 0;font-size:13px}
 @media(max-width:480px){.grid{grid-template-columns:1fr}th,td{padding:11px 4px;font-size:14px}}
 
@@ -38,12 +38,12 @@ footer{color:#656b72;text-align:center;padding:15px 0;font-size:13px}
 <button type="button" class="action-button" id="addtraining">📅 Training toevoegen aan agenda</button>
 <button type="button" class="action-button" id="addmatch">⚽ Wedstrijd toevoegen aan agenda</button>
 </div>
-<p class="muted" id="calendarstatus" role="status">Agenda-items worden als bestanden aangemaakt op je apparaat. Er worden geen gegevens naar een server verstuurd of extra gegevens opgeslagen.</p>
+<p class="muted" id="calendarstatus" role="status"></p>
 </section>
 <section class="panel"><h2 id="heading"></h2><div class="grid"><div class="fact">🏃 Training<strong id="trainingdate"></strong><span class="muted">14:30–15:30 uur · Veld 1</span></div><div class="fact">⚽ Wedstrijd<strong id="matchdate"></strong><span class="muted"><span id="matchtime">11:30–12:30 uur</span> · Veld 4</span></div></div>
 <h3>Wedstrijden</h3><table><thead><tr><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead><tbody id="games"></tbody></table></section>
 
-<section class="panel"><h2>📖 Spelregels & wedstrijdbegeleiding</h2><p>Alle afspraken voor een gezellige wedstrijd, van de aftrap tot het samen opruimen.</p><a href="spelregels.html" class="action-button">📖 Spelregels & wedstrijdbegeleiding</a></section><section class="panel"><h2>📋 Hulpouderschema per team</h2><p>Alle trainings- en wedstrijddiensten voor jouw team in deze periode, met ruimte om namen in te vullen en een kopieerknop.</p><a id="helpLink" href="hulpouders.html" class="action-button">📋 Open hulpouderschema</a></section>
+<section class="panel"><h2>📖 Spelregels & wedstrijdbegeleiding</h2><p>Alle afspraken voor een gezellige wedstrijd, van de aftrap tot het samen opruimen.</p><a href="spelregels.html" class="action-button rules-button">📖 Spelregels & wedstrijdbegeleiding</a></section><section class="panel"><h2>📋 Hulpouderschema per team</h2><p>Alle trainings- en wedstrijddiensten voor jouw team in deze periode, met ruimte om namen in te vullen en een kopieerknop.</p><a id="helpLink" href="hulpouders.html" class="action-button">📋 Open hulpouderschema</a></section>
 <section class="panel"><h2>❄️ Winterstop</h2><p>Laatste training: <strong>woensdag 9 december 2026</strong>.<br>Laatste wedstrijd: <strong>zaterdag 12 december 2026</strong>.</p><p>We starten na de winterstop weer met trainen op <strong>woensdag 13 januari 2027</strong>. De eerste wedstrijd is op <strong>zaterdag 16 januari 2027</strong>.</p><p>In <strong>periode 3</strong> spelen we in een nieuwe formatie. Het nieuwe wedstrijdschema publiceren we later.</p></section>
 <footer>SM Smarties · Dit schema is openbaar toegankelijk via de link.</footer>
 </main>
