@@ -18,6 +18,14 @@ footer{color:#656b72;text-align:center;padding:15px 0;font-size:13px}
 @media(max-width:480px){.grid{grid-template-columns:1fr}th,td{padding:11px 4px;font-size:14px}}
 
 .team-spotlight{border:2px solid #b71c1c;background:#fff8df}.team-spotlight h2{color:#8c1717}.spotlight-match{font-size:clamp(20px,4vw,29px);font-weight:800;margin:12px 0}.spotlight-meta{display:flex;flex-wrap:wrap;gap:8px}.spotlight-meta span{background:#fff;padding:7px 10px;border-radius:8px}.own-row{background:#fff5cb;font-weight:700}.selector-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:520px){.selector-grid{grid-template-columns:1fr}}
+
+/* Speelse, subtiele voetbal-overlay */
+.mini-football{position:fixed;left:-48px;top:50vh;z-index:9999;font-size:30px;line-height:1;pointer-events:none;user-select:none;filter:drop-shadow(0 2px 2px #0003);will-change:transform,opacity;opacity:0}
+.mini-football.fly-right{animation:football-right var(--fly-duration,5s) linear forwards}
+.mini-football.fly-left{left:auto;right:-48px;animation:football-left var(--fly-duration,5s) linear forwards}
+@keyframes football-right{0%{transform:translate(0,0) rotate(0deg);opacity:0}8%{opacity:1}20%{transform:translate(20vw,-28px) rotate(170deg)}40%{transform:translate(40vw,0) rotate(360deg)}60%{transform:translate(60vw,-25px) rotate(540deg)}80%{transform:translate(80vw,0) rotate(720deg)}92%{opacity:1}100%{transform:translate(calc(100vw + 60px),-8px) rotate(900deg);opacity:0}}
+@keyframes football-left{0%{transform:translate(0,0) rotate(0deg);opacity:0}8%{opacity:1}20%{transform:translate(-20vw,-28px) rotate(-170deg)}40%{transform:translate(-40vw,0) rotate(-360deg)}60%{transform:translate(-60vw,-25px) rotate(-540deg)}80%{transform:translate(-80vw,0) rotate(-720deg)}92%{opacity:1}100%{transform:translate(calc(-100vw - 60px),-8px) rotate(-900deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.mini-football{display:none!important}}
 </style></head><body>
 <header class="top"><div class="wrap"><h1>⚽ SM Smarties CL Schema</h1><p class="subtitle">Seizoen 2026/2027 · Periode 2 · <span id="seasonround">speelronde 1</span></p></div></header>
 <main class="wrap">
@@ -106,4 +114,29 @@ a.href=url;a.download="SM-Smarties-"+date+"-"+(start.replace(":",""))+".ics";doc
 }
 document.getElementById("addtraining").addEventListener("click",()=>{const r=rounds[+sel.value];downloadCalendarEvent({date:r.training,start:"14:30",end:"15:30",title:"SM Smarties – training",description:"Training SM Smarties. Graag 10 minuten voor aanvang aanwezig.",location:"Sporting Martinus, Amstelveen"});document.getElementById("calendarstatus").textContent="Trainingsafspraak aangemaakt. Open het .ics-bestand om deze aan je agenda toe te voegen."});
 document.getElementById("addmatch").addEventListener("click",()=>{const r=rounds[+sel.value],t=teamSelect.value,m=r.matches.find(x=>x.home===t||x.away===t);if(!m){document.getElementById("calendarstatus").textContent="Selecteer eerst je team om de juiste wedstrijd aan je agenda toe te voegen.";return}const start=r.round===1?"10:30":"11:30",end=r.round===1?"11:30":"12:30";downloadCalendarEvent({date:r.date,start,end,title:"SM Smarties – "+m.home+" vs "+m.away,description:"Wedstrijd SM Smarties op veld 4, deelveld "+m.field+". Graag 10 minuten voor aanvang aanwezig.",location:"Sporting Martinus, Amstelveen"});document.getElementById("calendarstatus").textContent="Wedstrijd aangemaakt. Open het .ics-bestand om deze aan je agenda toe te voegen."});
+
+/* Af en toe stuitert er een klein voetbal over het scherm. */
+(function(){
+  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const ball=document.createElement("div");
+  ball.className="mini-football";
+  ball.textContent="⚽";
+  ball.setAttribute("aria-hidden","true");
+  document.body.appendChild(ball);
+  function schedule(){
+    window.setTimeout(fly, 14000 + Math.random()*26000);
+  }
+  function fly(){
+    const fromLeft=Math.random()>=0.5;
+    ball.className="mini-football "+(fromLeft?"fly-right":"fly-left");
+    ball.style.top=(12+Math.random()*72)+"vh";
+    ball.style.setProperty("--fly-duration",(4+Math.random()*2.5)+"s");
+    ball.addEventListener("animationend",function done(){
+      ball.removeEventListener("animationend",done);
+      ball.className="mini-football";
+      schedule();
+    });
+  }
+  schedule();
+})();
 </script></body></html>
